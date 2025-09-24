@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  author: Sudo-Tiz
+  role_name: jellyseerr
+  description: An Ansible role for installing Jellyseerr, a request management and media discovery tool for your media library
+  platforms:
+    - name: Debian
+      versions:
+        - all
+    - name: Ubuntu
+      versions:
+        - all
+    - name: ArchLinux
+      versions:
+        - all
+    - name: EL
+      versions:
+        - "7"
+  license: AGPL-3.0-or-later
+  min_ansible_version: "2.1"

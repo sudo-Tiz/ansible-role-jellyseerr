@@ -1,0 +1,25 @@
+---
+
+- name: Install Jellyseerr
+  tags:
+    - setup-all
+    - setup-jellyseerr
+    - install-all
+    - install-jellyseerr
+  block:
+    - name: Run Jellyseerr validation tasks
+      when: jellyseerr_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/validate_config.yml"
+
+    - name: Run Jellyseerr installation tasks
+      when: jellyseerr_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/install.yml"
+
+- name: Uninstall Jellyseerr
+  tags:
+    - setup-all
+    - setup-jellyseerr
+  block:
+    - name: Run Jellyseerr uninstallation tasks
+      when: not jellyseerr_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"

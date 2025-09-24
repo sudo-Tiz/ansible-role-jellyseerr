@@ -1,0 +1,38 @@
+{% if jellyseerr_container_labels_traefik_enabled %}
+traefik.enable=true
+
+{% if jellyseerr_container_labels_traefik_docker_network %}
+traefik.docker.network={{ jellyseerr_container_labels_traefik_docker_network }}
+{% endif %}
+
+{% set middlewares = [] %}
+
+{% if jellyseerr_container_labels_traefik_path_prefix != '/' %}
+traefik.http.middlewares.{{ jellyseerr_identifier }}-slashless-redirect.redirectregex.regex=^({{ jellyseerr_container_labels_traefik_path_prefix | quote }})$
+traefik.http.middlewares.{{ jellyseerr_identifier }}-slashless-redirect.redirectregex.replacement=${1}/
+{% set middlewares = middlewares + [jellyseerr_identifier + '-slashless-redirect'] %}
+{% endif %}
+
+{% if jellyseerr_container_labels_traefik_path_prefix != '/' %}
+traefik.http.middlewares.{{ jellyseerr_identifier }}-strip-prefix.stripprefix.prefixes={{ jellyseerr_container_labels_traefik_path_prefix }}
+{% set middlewares = middlewares + [jellyseerr_identifier + '-strip-prefix'] %}
+{% endif %}
+
+traefik.http.routers.{{ jellyseerr_identifier }}.rule={{ jellyseerr_container_labels_traefik_rule }}
+{% if jellyseerr_container_labels_traefik_priority | int > 0 %}
+traefik.http.routers.{{ jellyseerr_identifier }}.priority={{ jellyseerr_container_labels_traefik_priority }}
+{% endif %}
+traefik.http.routers.{{ jellyseerr_identifier }}.service={{ jellyseerr_identifier }}
+{% if middlewares | length > 0 %}
+traefik.http.routers.{{ jellyseerr_identifier }}.middlewares={{ middlewares | join(',') }}
+{% endif %}
+traefik.http.routers.{{ jellyseerr_identifier }}.entrypoints={{ jellyseerr_container_labels_traefik_entrypoints }}
+traefik.http.routers.{{ jellyseerr_identifier }}.tls={{ jellyseerr_container_labels_traefik_tls | to_json }}
+{% if jellyseerr_container_labels_traefik_tls %}
+traefik.http.routers.{{ jellyseerr_identifier }}.tls.certResolver={{ jellyseerr_container_labels_traefik_tls_certResolver }}
+{% endif %}
+
+traefik.http.services.{{ jellyseerr_identifier }}.loadbalancer.server.port={{ jellyseerr_container_http_port }}
+{% endif %}
+
+{{ jellyseerr_container_labels_additional_labels }}

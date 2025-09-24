@@ -1,0 +1,26 @@
+---
+
+- name: Check existence of Jellyseerr systemd service
+  ansible.builtin.stat:
+    path: "{{ devture_systemd_docker_base_systemd_path }}/{{ jellyseerr_identifier }}.service"
+  register: jellyseerr_service_stat
+
+- name: Uninstall Jellyseerr systemd services and files
+  when: jellyseerr_service_stat.stat.exists | bool
+  block:
+    - name: Ensure Jellyseerr systemd service is stopped
+      ansible.builtin.service:
+        name: "{{ jellyseerr_identifier }}"
+        state: stopped
+        enabled: false
+        daemon_reload: true
+
+    - name: Ensure Jellyseerr systemd service does not exist
+      ansible.builtin.file:
+        path: "{{ devture_systemd_docker_base_systemd_path }}/{{ jellyseerr_identifier }}.service"
+        state: absent
+
+    - name: Ensure Jellyseerr path doesn't exist
+      ansible.builtin.file:
+        path: "{{ jellyseerr_base_path }}"
+        state: absent
