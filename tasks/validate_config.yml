@@ -7,7 +7,6 @@
   with_items:
     - jellyseerr_uid
     - jellyseerr_gid
-    - jellyseerr_hostname
 
 - name: Fail if Jellyseerr architecture is not supported
   ansible.builtin.fail:
