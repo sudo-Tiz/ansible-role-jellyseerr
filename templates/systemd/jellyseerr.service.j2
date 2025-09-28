@@ -1,5 +1,5 @@
 [Unit]
-Description=Overseerr ({{ jellyseerr_identifier }})
+Description=Jellyseerr ({{ jellyseerr_identifier }})
 {% for service in jellyseerr_systemd_required_services_list %}
 Requires={{ service }}
 After={{ service }}
