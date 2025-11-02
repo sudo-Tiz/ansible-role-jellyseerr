@@ -1,6 +1,7 @@
 ---
 galaxy_info:
   author: Sudo-Tiz
+  namespace: sudo_tiz
   role_name: jellyseerr
   description: An Ansible role for installing Jellyseerr, a request management and media discovery tool for your media library
   platforms:
