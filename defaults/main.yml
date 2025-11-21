@@ -9,7 +9,7 @@ jellyseerr_uid: ""
 jellyseerr_gid: ""
 jellyseerr_timezone: "Etc/UTC"
 
-# renovate: datasource=docker depName=jellyseerr versioning=semver
+# renovate: datasource=docker depName=fallenbagel/jellyseerr versioning=semver
 jellyseerr_version: 2.7.3
 jellyseerr_arch: amd64
 
